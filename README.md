@@ -42,10 +42,6 @@ to the [index.html](/Assets/WebGLTemplates/BetterMinimal/index.html) of the WebG
 
 https://aptos-petra-wallet-unity-integration-build.vercel.app
 
-*Preview*
-
-https://github.com/bravo-ready/aptos-petra-wallet-unity-integration/assets/102283854/e54f1cd6-6449-4518-bece-e0fa9530c5cc
-
 ## Credits
 
 - [Block Breaker Template](https://assetstore.unity.com/packages/templates/packs/block-breaker-template-63173)
