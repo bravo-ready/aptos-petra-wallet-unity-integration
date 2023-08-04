@@ -2,24 +2,23 @@ mergeInto(LibraryManager.library, {
     ConnectWallet: async function () {
         // Petra injects an aptos object into the window of any web app the user visits
         const wallet = window.aptos;
-        // Try to connect to Petra Wallet
         try {
-            // Display alert box if Petra Wallet is not installed
-            if (!wallet) alert("Please install Petra Wallet");
+            // Check if Petra Wallet is installed
+            if (!wallet) {
+                alert("Please install Petra Wallet!");
+                throw "Petra Wallet not installed!";
+            }
             // Connect to Petra Wallet
             await wallet.connect();
-        } catch (error) {
-            console.log(error);
-            // Reactivate button
-            SendMessage("Camera", "ConnectPetraError");
-            // Exit function
-            return;
-        }
-        // Try to sign a message
-        try
-        {
+            // Check the network being used
+            const network = await wallet.getNetwork();
+            if (network.name != "Devnet") {
+                alert("Please go to your Petra Wallet settings, switch the network to 'Devnet' and try again!");
+                await wallet.disconnect();
+                throw "Wrong network!";
+            }
             // Set message text
-            const msg = "Aptos x Bravo Ready To The Moon!";
+            const msg = "This is a placeholder message.";
             // Get public key
             const { publicKey } = await wallet.account();
             // Remove the 0x prefix
@@ -35,9 +34,9 @@ mergeInto(LibraryManager.library, {
             signedMessage.publicKey = key; // Can be removed if we can get the public key by the wallet address
             console.log(JSON.stringify(signedMessage));
             // Activate play button
-            SendMessage("Camera", "ConnectPetraSuccess", JSON.stringify(signedMessage))
-        } catch (error){
-            console.log(error);
+            SendMessage("Camera", "ConnectPetraSuccess", JSON.stringify(signedMessage))            
+        } catch (error) {
+            console.error(error);
             // Reactivate button
             SendMessage("Camera", "ConnectPetraError");
         }
@@ -86,7 +85,7 @@ mergeInto(LibraryManager.library, {
             // Start the game
             SendMessage("Camera", "PayAndPlaySuccess");
         } catch (error) {
-            console.log(error);
+            console.error(error);
             // Reactivate button
             SendMessage("Camera", "PayAndPlayError");
         }        
